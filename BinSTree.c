@@ -429,7 +429,7 @@ void DeleteNodeBT(BinTreeBT *P, infotypeBT X) {
     } else {
         lastParent->left = NilBT;
     }
-    DeAlokasiBT(lastNode);
+    DeAlokasiBT(lastNode);  
 
     printf(">> Node %d berhasil dihapus (ditukar dengan node terakhir %d).\n", X, lastVal);
 }
