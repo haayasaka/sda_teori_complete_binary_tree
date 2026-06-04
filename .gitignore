@@ -1,0 +1,65 @@
+# ============================
+# Object files & binaries
+# ============================
+*.o
+*.obj
+*.exe
+*.out
+*.app
+*.dll
+*.dylib
+*.so
+main
+
+# ============================
+# Build directories
+# ============================
+build/
+bin/
+obj/
+Debug/
+Release/
+*.dSYM/
+
+# ============================
+# Compiler / linker temp files
+# ============================
+*.ilk
+*.pdb
+*.exp
+*.lib
+*.idb
+*.map
+*.sbr
+
+# ============================
+# Precompiled headers
+# ============================
+*.gch
+*.pch
+
+# ============================
+# IDE / editor files
+# ============================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ============================
+# CMake generated
+# ============================
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+CMakeUserPresets.json
+
+# ============================
+# Logs / temp
+# ============================
+*.log
+*.tmp
