@@ -11,7 +11,7 @@ Suffix      : BT (Binary Tree)
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "../boolean.h"
+#include "boolean.h"
 
 #define NilBT NULL
 
