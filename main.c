@@ -18,16 +18,17 @@ int main() {
         printf("        MENU BINARY TREE\n");
         printf("========================================\n");
         printf("1.  Insert Node\n");
-        printf("2.  Print Tree\n");
-        printf("3.  Transversal PreOrder\n");
-        printf("4.  Transversal InOrder\n");
-        printf("5.  Transversal PostOrder\n");
-        printf("6.  Transversal LevelOrder\n");
-        printf("7.  Search Node Tree\n");
-        printf("8.  Jumlah Daun/Leaf\n");
-        printf("9.  Mencari Kedalaman Node Tree\n");
-        printf("10. Membandingkan 2 Node Tree\n");
-        printf("11. Exit\n");
+        printf("2.  Delete Node\n");
+        printf("3.  Print Tree\n");
+        printf("4.  Transversal PreOrder\n");
+        printf("5.  Transversal InOrder\n");
+        printf("6.  Transversal PostOrder\n");
+        printf("7.  Transversal LevelOrder\n");
+        printf("8.  Search Node Tree\n");
+        printf("9.  Jumlah Daun/Leaf\n");
+        printf("10. Mencari Kedalaman Node Tree\n");
+        printf("11. Membandingkan 2 Node Tree\n");
+        printf("12. Exit\n");
         printf("========================================\n");
         printf("Pilihan: ");
         scanf("%d", &pilihan);
@@ -56,9 +57,40 @@ int main() {
             }
 
             /* ============================== */
-            /* 2. Print Tree (Visualisasi)    */
+            /* 2. Delete Node                 */
             /* ============================== */
             case 2: {
+                if (IsEmptyBT(root)) {
+                    printf(">> Tree kosong, tidak ada yang bisa dihapus!\n");
+                } else {
+                    printf("Masukkan nilai node yang ingin dihapus: ");
+                    while (scanf("%d", &nilai) != 1) {
+                        printf("Input salah! Coba lagi: ");
+                        while (getchar() != '\n');
+                    }
+
+                    if (!SearchBT(root, nilai)) {
+                        printf(">> Node %d TIDAK ditemukan di dalam tree!\n", nilai);
+                    } else {
+                        DeleteNodeBT(&root, nilai);
+
+                        /* Tampilkan status Perfect Binary Tree setelah delete */
+                        if (IsEmptyBT(root)) {
+                            printf(">> Tree sekarang kosong.\n");
+                        } else if (IsPerfectBT(root)) {
+                            printf(">> Status: Tree saat ini adalah PERFECT Binary Tree.\n");
+                        } else {
+                            printf(">> Status: Tree saat ini BELUM perfect (masih Complete Binary Tree).\n");
+                        }
+                    }
+                }
+                break;
+            }
+
+            /* ============================== */
+            /* 3. Print Tree (Visualisasi)    */
+            /* ============================== */
+            case 3: {
                 if (IsEmptyBT(root)) {
                     printf(">> Tree kosong!\n");
                 } else {
@@ -76,9 +108,9 @@ int main() {
             }
 
             /* ============================== */
-            /* 3. Traversal PreOrder          */
+            /* 4. Traversal PreOrder          */
             /* ============================== */
-            case 3: {
+            case 4: {
                 if (IsEmptyBT(root)) {
                     printf(">> Tree kosong!\n");
                 } else {
@@ -90,9 +122,9 @@ int main() {
             }
 
             /* ============================== */
-            /* 4. Traversal InOrder           */
+            /* 5. Traversal InOrder           */
             /* ============================== */
-            case 4: {
+            case 5: {
                 if (IsEmptyBT(root)) {
                     printf(">> Tree kosong!\n");
                 } else {
@@ -104,9 +136,9 @@ int main() {
             }
 
             /* ============================== */
-            /* 5. Traversal PostOrder         */
+            /* 6. Traversal PostOrder         */
             /* ============================== */
-            case 5: {
+            case 6: {
                 if (IsEmptyBT(root)) {
                     printf(">> Tree kosong!\n");
                 } else {
@@ -118,9 +150,9 @@ int main() {
             }
 
             /* ============================== */
-            /* 6. Traversal LevelOrder        */
+            /* 7. Traversal LevelOrder        */
             /* ============================== */
-            case 6: {
+            case 7: {
                 if (IsEmptyBT(root)) {
                     printf(">> Tree kosong!\n");
                 } else {
@@ -132,9 +164,9 @@ int main() {
             }
 
             /* ============================== */
-            /* 7. Search Node                 */
+            /* 8. Search Node                 */
             /* ============================== */
-            case 7: {
+            case 8: {
                 if (IsEmptyBT(root)) {
                     printf(">> Tree kosong!\n");
                 } else {
@@ -150,17 +182,17 @@ int main() {
             }
 
             /* ============================== */
-            /* 8. Jumlah Daun / Leaf          */
+            /* 9. Jumlah Daun / Leaf          */
             /* ============================== */
-            case 8: {
+            case 9: {
                 printf(">> Jumlah daun/leaf = %d\n", nbDaunBT(root));
                 break;
             }
 
             /* ============================== */
-            /* 9. Kedalaman (Depth) Tree      */
+            /* 10. Kedalaman (Depth) Tree     */
             /* ============================== */
-            case 9: {
+            case 10: {
                 if (IsEmptyBT(root)) {
                     printf(">> Tree kosong!\n");
                 } else {
@@ -170,9 +202,9 @@ int main() {
             }
 
             /* ============================== */
-            /* 10. Bandingkan Level 2 Node    */
+            /* 11. Bandingkan Level 2 Node    */
             /* ============================== */
-            case 10: {
+            case 11: {
                 if (IsEmptyBT(root)) {
                     printf(">> Tree kosong!\n");
                 } else {
@@ -209,9 +241,9 @@ int main() {
             }
 
             /* ============================== */
-            /* 11. Exit                       */
+            /* 12. Exit                       */
             /* ============================== */
-            case 11: {
+            case 12: {
                 /* Dealokasi seluruh tree sebelum keluar */
                 DestroyTreeBT(&root);
                 printf(">> Keluar program. Terima kasih!\n");
@@ -223,7 +255,7 @@ int main() {
                 break;
         }
 
-    } while (pilihan != 11);
+    } while (pilihan != 12);
 
     return 0;
 }
