@@ -162,6 +162,34 @@ ListOfNodeBT MakeListPreOrderBT(BinTreeBT P);
 /* Menghasilkan List dengan elemen urutan PreOrder */
 
 /****************************************************/
+/*         FUNGSI TAMBAHAN UNTUK MENU               */
+/****************************************************/
+
+void InsertNodeBT(BinTreeBT *P, infotypeBT X);
+/* Insert node baru secara Level-Order agar tree tetap Complete/Perfect */
+/* I.S. P sembarang (boleh kosong) */
+/* F.S. Node baru X ditambahkan di posisi level-order pertama yang kosong */
+
+void DeleteNodeBT(BinTreeBT *P, infotypeBT X);
+/* Hapus node bernilai X dengan mempertahankan struktur Complete Binary Tree */
+/* Caranya: tukar nilai X dengan node terakhir (level-order), lalu hapus node terakhir */
+/* I.S. P tidak kosong, X ada di dalam tree */
+/* F.S. Node bernilai X terhapus, struktur tree tetap Complete */
+
+void LevelOrderBT(BinTreeBT P);
+/* Traversal Level-Order (Breadth-First) menggunakan antrian array */
+/* I.S. P terdefinisi */
+/* F.S. Semua simpul P sudah diproses secara Level-Order */
+
+addressBT SearchNodeBT(BinTreeBT P, infotypeBT X);
+/* Mencari node dengan nilai X pada Binary Tree */
+/* Mengirimkan address node jika ditemukan, NilBT jika tidak */
+
+boolean IsPerfectBT(BinTreeBT P);
+/* Mengirimkan true jika P adalah Perfect Binary Tree */
+/* Perfect: semua internal node punya 2 anak, semua daun di level sama */
+
+/****************************************************/
 /*              DESTRUKTOR                          */
 /****************************************************/
 

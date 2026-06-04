@@ -288,6 +288,172 @@ ListOfNodeBT MakeListPreOrderBT(BinTreeBT P) {
 }
 
 /****************************************************/
+/*         FUNGSI TAMBAHAN UNTUK MENU               */
+/****************************************************/
+
+addressBT SearchNodeBT(BinTreeBT P, infotypeBT X) {
+/* Mencari node dengan nilai X secara rekursif */
+    if (IsEmptyBT(P)) return NilBT;
+    if (GetAkarBT(P) == X) return P;
+    addressBT found = SearchNodeBT(GetLeftBT(P), X);
+    if (found != NilBT) return found;
+    return SearchNodeBT(GetRightBT(P), X);
+}
+
+void LevelOrderBT(BinTreeBT P) {
+/* Traversal Level-Order menggunakan antrian (queue) array */
+    if (IsEmptyBT(P)) return;
+
+    BinTreeBT queue[200];
+    int front = 0, rear = 0;
+    queue[rear++] = P;
+
+    while (front < rear) {
+        BinTreeBT current = queue[front++];
+        printf("%d ", GetAkarBT(current));
+
+        if (GetLeftBT(current) != NilBT)  queue[rear++] = GetLeftBT(current);
+        if (GetRightBT(current) != NilBT) queue[rear++] = GetRightBT(current);
+    }
+}
+
+void InsertNodeBT(BinTreeBT *P, infotypeBT X) {
+/* Insert node baru secara Level-Order (Complete Binary Tree insertion) */
+    addressBT newNode = AlokasiBT(X);
+    if (newNode == NilBT) {
+        printf(">> Gagal alokasi memori!\n");
+        return;
+    }
+
+    /* Case: Tree masih kosong -> jadikan akar */
+    if (IsEmptyBT(*P)) {
+        *P = newNode;
+        printf(">> Node %d berhasil dijadikan AKAR.\n", X);
+        return;
+    }
+
+    /* Traversal Level-Order untuk mencari posisi kosong pertama */
+    BinTreeBT queue[200];
+    int front = 0, rear = 0;
+    queue[rear++] = *P;
+
+    while (front < rear) {
+        BinTreeBT current = queue[front++];
+
+        /* Cek anak kiri */
+        if (GetLeftBT(current) == NilBT) {
+            current->left = newNode;
+            printf(">> Node %d diinsert sebagai LEFT SON dari %d (Level-Order).\n", X, GetAkarBT(current));
+            return;
+        } else {
+            queue[rear++] = GetLeftBT(current);
+        }
+
+        /* Cek anak kanan */
+        if (GetRightBT(current) == NilBT) {
+            current->right = newNode;
+            printf(">> Node %d diinsert sebagai RIGHT SON dari %d (Level-Order).\n", X, GetAkarBT(current));
+            return;
+        } else {
+            queue[rear++] = GetRightBT(current);
+        }
+    }
+}
+
+void DeleteNodeBT(BinTreeBT *P, infotypeBT X) {
+/* Hapus node bernilai X dengan mempertahankan struktur Complete Binary Tree.
+   Algoritma:
+   1. Cari node yang berisi nilai X (targetNode).
+   2. Cari node TERAKHIR dalam level-order (deepest rightmost node) beserta parentnya.
+   3. Salin nilai node terakhir ke targetNode.
+   4. Hapus (dealokasi) node terakhir.
+   Dengan cara ini struktur Complete Binary Tree tetap terjaga. */
+
+    if (IsEmptyBT(*P)) {
+        printf(">> Tree kosong, tidak bisa hapus!\n");
+        return;
+    }
+
+    /* Jika tree hanya punya 1 node (akar saja) */
+    if (GetLeftBT(*P) == NilBT && GetRightBT(*P) == NilBT) {
+        if (GetAkarBT(*P) == X) {
+            printf(">> Node %d (akar satu-satunya) berhasil dihapus.\n", X);
+            DeAlokasiBT(*P);
+            *P = NilBT;
+        } else {
+            printf(">> Node %d TIDAK ditemukan!\n", X);
+        }
+        return;
+    }
+
+    /* Level-Order: cari targetNode dan node terakhir + parentnya */
+    BinTreeBT queue[200];
+    int front = 0, rear = 0;
+    queue[rear++] = *P;
+
+    addressBT targetNode = NilBT;
+    addressBT lastNode = NilBT;
+    addressBT lastParent = NilBT;
+
+    while (front < rear) {
+        BinTreeBT current = queue[front++];
+
+        if (GetAkarBT(current) == X) {
+            targetNode = current;
+        }
+
+        if (GetLeftBT(current) != NilBT) {
+            lastParent = current;
+            lastNode = GetLeftBT(current);
+            queue[rear++] = GetLeftBT(current);
+        }
+        if (GetRightBT(current) != NilBT) {
+            lastParent = current;
+            lastNode = GetRightBT(current);
+            queue[rear++] = GetRightBT(current);
+        }
+    }
+
+    if (targetNode == NilBT) {
+        printf(">> Node %d TIDAK ditemukan!\n", X);
+        return;
+    }
+
+    /* Salin nilai node terakhir ke target, lalu hapus node terakhir */
+    infotypeBT lastVal = GetAkarBT(lastNode);
+    targetNode->info = lastVal;
+
+    /* Putuskan hubungan parent -> lastNode */
+    if (GetRightBT(lastParent) == lastNode) {
+        lastParent->right = NilBT;
+    } else {
+        lastParent->left = NilBT;
+    }
+    DeAlokasiBT(lastNode);
+
+    printf(">> Node %d berhasil dihapus (ditukar dengan node terakhir %d).\n", X, lastVal);
+}
+
+boolean IsPerfectBT(BinTreeBT P) {
+/* Perfect Binary Tree: semua internal node punya 2 anak, semua daun di level sama.
+   Cara cek: depth tree = d, jumlah node harus = 2^d - 1 */
+    if (IsEmptyBT(P)) return true; /* Tree kosong dianggap perfect */
+
+    int d = DepthBT(P);
+    int n = nbElmtBT(P);
+
+    /* Hitung 2^d - 1 */
+    int perfect_count = 1;
+    int i;
+    for (i = 0; i < d; i++) {
+        perfect_count *= 2;
+    }
+    perfect_count -= 1; /* 2^d - 1 */
+
+    return (n == perfect_count);
+}
+
+/****************************************************/
 /*              DESTRUKTOR                          */
 /****************************************************/
 
